@@ -1,6 +1,8 @@
 n = int(input())
 
-strng = input()
+strng = input().split()
+toremove = []
+# print(strng)
 
 while True:
     current = input()
@@ -10,9 +12,8 @@ while True:
     else:
         [name, item] = current.split(" drinkt ")
         # print(name, item)
-        if strng.startswith(item):
-            strng = strng.replace(item + " ", "")
-        else:
-            strng = strng.replace(" " + item, "")
+        toremove.append(item)
+        # strng.remove(item)
+        # strng = strng.replace(item, "")
 
-print(strng, end="")
+print(" ".join(filter(lambda x: x not in toremove, strng)))

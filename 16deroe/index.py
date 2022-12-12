@@ -15,12 +15,14 @@ for _ in range(m):
 from queue import PriorityQueue
 
 queue = PriorityQueue()
-queue.put((0, huizen[0], [0]))
+# This hack is beautiful. We flip all the huizen values, cuz we want to find the
+# Shortest path with the most kids.
+queue.put((0, -huizen[0], [0]))
 
 visited = [False] * n
 visited[0] = True
 
-max_kids = 0
+max_kids = -10000000000000
 shortest_paths = []
 
 while not queue.empty():
@@ -28,10 +30,10 @@ while not queue.empty():
     node = path[-1]
 
     if node == n - 1:
-        if kids > max_kids:
-            max_kids = kids
+        if -kids > max_kids:
+            max_kids = -kids
             shortest_paths = [path]
-        elif kids == max_kids:
+        elif -kids == max_kids:
             shortest_paths.append(path)
 
     for neighbor in adjlist[node]:
@@ -40,7 +42,7 @@ while not queue.empty():
             queue.put(
                 (
                     distance + neighbor[1],
-                    kids + huizen[neighbor[0]],
+                    kids  - huizen[neighbor[0]],
                     path + [neighbor[0]],
                 )
             )
